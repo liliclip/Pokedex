@@ -1,0 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Audiowide&display=swap');
+h2 {
+    font-family: 'Audiowide', cursive;
+    color: #0E63C3;
+    font-size: 3rem;
+}
+.container-cards {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-gap: 20px;
+  padding: 10px;
+}
+.card{
+    background-color: blue;
+}
