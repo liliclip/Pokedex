@@ -10,6 +10,6 @@ h2 {
   grid-gap: 20px;
   padding: 10px;
 }
-.card{
-    background-color: blue;
+.message-error{
+    background-color: crimson;
 }
