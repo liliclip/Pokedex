@@ -14,17 +14,19 @@ const Dashboard = () => {
     
    
       const fetchData = async () => {
-        
+        setLoading(true);
         try {
-          setLoading(true);
+          
           const data = await axios.get(api).then((response) => {
             return response.data;
           });
           setPokemon(data.results);
+          setLoading(false);
         } catch (error) {
           console.log(error);
+          setLoading(false);
         }
-        setLoading(false);
+        
       };
       fetchData();
     
