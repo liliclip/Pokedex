@@ -5,12 +5,12 @@ import "./PokemonCard.css"
 
 
 
-const PokemonCard = ({ name, index, image }) => {
+const PokemonCard = ({ name,  image }) => {
   return (
     <Card className="card">
-      <img src={image} alt={index} />
-      <p key={index}>{name[`${index}`]}</p>
-      <Button variant="outlined">Detalle</Button>
+      <img src={image} alt={name} />
+      <p >{name}</p>
+      <Button  variant="outlined">Detalle</Button>
     </Card>
   );
 };
