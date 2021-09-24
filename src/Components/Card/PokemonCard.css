@@ -1,4 +1,11 @@
-p{
-    font-family: 'Audiowide', cursive;
-    color: #0EBEC3;
+p {
+  font-family: "Audiowide", cursive;
+  color: #555454;
+  font-size: 1.3rem;
+}
+.poke-image{
+    height: auto; 
+    width: auto;
+    max-width: 800px; 
+    max-height: 800px;
 }
