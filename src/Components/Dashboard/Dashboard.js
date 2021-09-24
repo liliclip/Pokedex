@@ -3,8 +3,9 @@ import List from "../List/List";
 import "./Dashboard.css";
 import axios from "axios";
 import Loader from "../Loader/Loader";
+import pokeball from "../../Assets/small-pokeball-icon-4.jpeg"
 
-const api = "https://pokeapi.co/api/v2/pokemon?limit=600";
+const api = "https://pokeapi.co/api/v2/pokemon?limit=3000";
 
 const Dashboard = () => {
   const [pokemon, setPokemon] = useState([]);
@@ -33,7 +34,11 @@ const Dashboard = () => {
 
   return (
     <>
-      <h1>Pokedex</h1>
+    <div className="pokedex">
+    <img src={pokeball} alt="pokeball" />
+    <h1>Pokedex</h1>
+    
+    </div>
       {loading && <Loader />}
       {pokemon.length === 0 && !error && !loading && <h1>No hay pokemon</h1>}
       {error && (
