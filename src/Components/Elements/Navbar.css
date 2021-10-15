@@ -1,0 +1,32 @@
+.pokedex {
+  background-color: #d30101;
+  width: 100%;
+  height: 80px;
+  display: flex;
+  align-items:center;
+  justify-content: center;
+  text-align: center;
+  padding: 10px;
+  font-family: "Audiowide", cursive;
+  color: #06CAFA;
+ 
+}
+.pokedex img {
+  max-width: 100px;
+  max-height: 100px;
+}
+.pokedex button {
+  background-color: transparent;
+  border: none;
+  margin: 0px;
+  width: 100px;
+  padding: 0;
+}
+.pokedex span{
+  margin: 0px;
+}
+
+.counter-pokemon{
+  display: flex;
+  flex-direction: column;
+}

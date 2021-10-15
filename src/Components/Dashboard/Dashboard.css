@@ -14,17 +14,3 @@ h1 {
 .message-error {
   background-color: crimson;
 }
-.pokedex {
-  background-color: #D30101;
-  width: 100%;
-  display: flex;
-  text-align: center;
-  margin-bottom: 20px;
-}
-.pokedex img{
-  height: auto; 
-    width: auto;
-    max-width: 150px; 
-    max-height: 150px;
-    margin-left: 500px;
-}

@@ -1,0 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+.Detail-container-card{
+    display: flex;
+    background-color: white;
+    width: 550px;
+    margin-left: 450px;
+    margin-top: 100px;
+    border-radius: 20px;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.7);
+}
+
+.Detail-container-card h3{
+    font-family: "Audiowide", cursive;
+    color:#35cdfc;
+    font-size: 15px;
+}
+.Detail-container-card-rigth{
+    display: flex;
+    flex-direction: column;
+    background-color: black;
+    color: white;
+    font-size: 11px;
+    padding: 15px;
+    border-radius: 0px 15px 15px 0px;
+    width: 200px;
+}
+.Detail-container-card-left{
+    display: flex;
+    flex-direction: column;
+    background-color:#D30101;
+    color: white;
+    font-size: 11px;
+    padding: 20px;
+    border-radius: 15px 0px 0px 15px;
+}
+.height-weight{
+    display:flex;
+}
+.titles{
+    font-family: 'Lato', sans-serif;
+}
+.background-image{
+    background-color: white;
+    border: 15px solid #d0d0d0;
+    border-radius: 10px;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.3);
+    
+}
+.background-image img{
+  width: 150px;
+}
+.types{
+  margin:0;
+  display: inline;
+}
+.types::after{
+    content: "/";
+    height: 60;
+}
+.types:last-child::after{
+    content: "";
+    height: 60;
+}
