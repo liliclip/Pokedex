@@ -21,14 +21,6 @@ const useStyle = makeStyles({
   card: {
     backgroundColor: "#DCDCDC",
   },
-  addPokemon: {
-    borderRadious: 3,
-    backgroundColor: "#8583FF",
-    color: "white",
-    marginBottom: "20px",
-    width: "100px",
-    marginTop: "20px",
-  },
 });
 
 const PokemonCard = ({
@@ -38,33 +30,48 @@ const PokemonCard = ({
   data,
   handleAddPokemon,
   cartPokemon,
+  handleDeletePokemon,
+  pokedex,
 }) => {
+  const [isInCart, setIsInCart] = useState(false);
+  const clasStyle = useStyle();
+  //cambio de ruta para ver el detalle
+  console.log(pokedex)
   let history = useHistory();
   const handlerClick = () => {
     history.push(`/Detail/${id}`);
   };
+  // funcion para añadir el pokemon y hacer switch de botones
+  const callAddButton = () => {
+    handleAddPokemon(data, image, id);
+    setIsInCart(true);
+  };
+  const callDeleteButton = () => {
+    handleDeletePokemon(name);
+    setIsInCart(false);
+  };
+  
 
-  const callDashboard = () => {
-    handleAddPokemon(data)
-    setIsInCart(true)
-  }
-
-  const clasStyle = useStyle();
-  const [isInCart, setIsInCart] = useState(false);
-
+  //const inPokedex = pokedex.find((item) => item.id === id);
+  // componente para hacer el switch de botones
   const SwitchButtom = () => {
-    
     switch (isInCart) {
       case true: {
-        return <ButtonDelete />;
+        return (
+          <ButtonDelete
+            onClick={() => callDeleteButton()}
+            
+          />
+        );
       }
       case false: {
-        return <AddButton onClick={() => callDashboard()} />;
+        return (
+          <AddButton onClick={() => callAddButton()}  />
+        );
       }
-      default: 
-        return "ahora no la cagamos"
+      default:
+        return "error";
     }
-  
   };
 
   return (
@@ -79,6 +86,8 @@ const PokemonCard = ({
         data={data}
         handleAddPokemon={handleAddPokemon}
         cartPokemon={cartPokemon}
+        handleDeletePokemon={handleDeletePokemon}
+        id={id}
       />
     </Card>
   );

@@ -1,19 +1,21 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import List from "../List/List";
 import "./Dashboard.css";
-import axios from "axios";
 import Loader from "../Loader/Loader";
 import Navbar from "../Elements/Navbar";
 
 const api = "https://pokeapi.co/api/v2/pokemon?limit=600";
+const pokedexApi = "https://6169c5c109e030001712c597.mockapi.io/pokemon";
 
 const Dashboard = () => {
   const [pokemon, setPokemon] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [cartPokemon, setCartPokemon] = useState([]);
+  const [pokedex, setPokedex] = useState([]);
 
-  //Petición asíncrona
+  //Petición asíncrona 600 pokemon
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
@@ -32,33 +34,38 @@ const Dashboard = () => {
     };
     fetchData();
   }, []);
+  // Obtener pokemon de pokedex
 
-  // const handleAddPokemon = (pokemon) => {
-  //   //constante que permite saber si el producto ya esta dentro del carrito
-  //   const pokemonExist = cartPokemon.find((item) => item.name === pokemon.name);
-  //   // si el producto ya existe
-  //   if (pokemonExist) {
-  //     setCartPokemon(
-  //       cartPokemon.map((item) =>
-  //         item.name === pokemon.name
-  //           ? { ...pokemonExist, quantity: pokemonExist.quantity + 1 }
-  //           : item
-  //       )
-  //     );
-  //   } else {
-  //     setCartPokemon([...cartPokemon, {...pokemon,quantity:1}])
-  //   }
-  // };
+  useEffect(() => {
+    const getPokedex = async () => {
+      try {
+        const data = await axios.get(pokedexApi).then((response) => response.data);
+        console.log("pokedex ",data)
+        setPokedex(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getPokedex();
+  }, []);
 
-  const handleAddPokemon = (pokemon) => {
-    const pokemonIndex = cartPokemon.findIndex((item) => item.name === pokemon.name);
+  //Función para el contador
+  const handleAddPokemon = (pokemon, image, id) => {
+    const pokemonIndex = cartPokemon.findIndex(
+      (item) => item.name === pokemon.name
+    );
     if (pokemonIndex !== -1) {
-      return 
-      
+      return;
     } else {
       const copyCard = [...cartPokemon];
-      setCartPokemon([...copyCard,{...pokemon,isInCart:true}]);
+      setCartPokemon([
+        ...copyCard,
+        { ...pokemon, isInCart: true, image: image, id: id },
+      ]);
     }
+  };
+  const handleDeletePokemon = (name) => {
+    setCartPokemon(cartPokemon.filter((poke) => poke.name !== name));
   };
 
   return (
@@ -80,6 +87,8 @@ const Dashboard = () => {
               data={pokemon}
               cartPokemon={cartPokemon}
               handleAddPokemon={handleAddPokemon}
+              handleDeletePokemon={handleDeletePokemon}
+              pokedex={pokedex}
             />
           ))}
         </div>

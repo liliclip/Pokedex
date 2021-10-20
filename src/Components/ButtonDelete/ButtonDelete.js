@@ -14,11 +14,11 @@ const useStyle = makeStyles({
     },
   });
 
-function ButtonDelete() {
+function ButtonDelete({onClick}) {
     const clasStyle = useStyle();
   return (
     <div>
-      <Button className={clasStyle.detailPokemon} >
+      <Button className={clasStyle.detailPokemon} onClick={onClick}>
         Eliminar
       </Button>
     </div>
