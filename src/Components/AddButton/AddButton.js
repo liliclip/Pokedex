@@ -14,9 +14,17 @@ const useStyle = makeStyles({
   },
 });
 
-function AddButton({onClick}) {
+function AddButton({ onClick, disabled }) {
   const clasStyle = useStyle();
-  return <Button className={clasStyle.addPokemon} onClick={onClick}>Agregar</Button>;
+  return (
+    <Button
+      className={clasStyle.addPokemon}
+      onClick={onClick}
+      disabled={disabled}
+    >
+      Agregar
+    </Button>
+  );
 }
 
 export default AddButton;

@@ -36,7 +36,6 @@ const PokemonCard = ({
   const [isInCart, setIsInCart] = useState(false);
   const clasStyle = useStyle();
   //cambio de ruta para ver el detalle
-  console.log(pokedex)
   let history = useHistory();
   const handlerClick = () => {
     history.push(`/Detail/${id}`);
@@ -50,9 +49,9 @@ const PokemonCard = ({
     handleDeletePokemon(name);
     setIsInCart(false);
   };
-  
 
-  //const inPokedex = pokedex.find((item) => item.id === id);
+  const inPokedex = pokedex.find((item) => item.id === id);
+
   // componente para hacer el switch de botones
   const SwitchButtom = () => {
     switch (isInCart) {
@@ -60,13 +59,13 @@ const PokemonCard = ({
         return (
           <ButtonDelete
             onClick={() => callDeleteButton()}
-            
+            disabled={!!inPokedex}
           />
         );
       }
       case false: {
         return (
-          <AddButton onClick={() => callAddButton()}  />
+          <AddButton onClick={() => callAddButton()} disabled={!!inPokedex} />
         );
       }
       default:
@@ -78,6 +77,8 @@ const PokemonCard = ({
     <Card className={clasStyle.card}>
       <img className="poke-image" src={image} alt={name} />
       <p>{`# ${id}-${name}`}</p>
+
+      {inPokedex && <h4>GUARDADO</h4>}
 
       <Button className={clasStyle.detailPokemon} onClick={handlerClick}>
         Detalle

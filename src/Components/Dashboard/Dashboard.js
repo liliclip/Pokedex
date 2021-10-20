@@ -5,7 +5,7 @@ import "./Dashboard.css";
 import Loader from "../Loader/Loader";
 import Navbar from "../Elements/Navbar";
 
-const api = "https://pokeapi.co/api/v2/pokemon?limit=600";
+const api = "https://pokeapi.co/api/v2/pokemon?limit=50";
 const pokedexApi = "https://6169c5c109e030001712c597.mockapi.io/pokemon";
 
 const Dashboard = () => {
@@ -39,15 +39,17 @@ const Dashboard = () => {
   useEffect(() => {
     const getPokedex = async () => {
       try {
-        const data = await axios.get(pokedexApi).then((response) => response.data);
-        console.log("pokedex ",data)
+        const data = await axios
+          .get(pokedexApi)
+          .then((response) => response.data);
+
         setPokedex(data);
       } catch (error) {
         console.log(error);
       }
     };
     getPokedex();
-  }, []);
+  }, [cartPokemon]);
 
   //Función para el contador
   const handleAddPokemon = (pokemon, image, id) => {

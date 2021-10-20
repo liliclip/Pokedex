@@ -11,7 +11,6 @@ const List = ({
   handleDeletePokemon,
   pokedex,
 }) => {
-  console.log("listPokedex", pokedex)
   const id = pokemon.url.replace(apiUrl, "").replace("/", "");
   const image = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
 
