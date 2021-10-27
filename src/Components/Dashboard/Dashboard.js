@@ -16,38 +16,45 @@ const Dashboard = () => {
   const [pokedex, setPokedex] = useState([]);
 
   //Petición asíncrona 600 pokemon
+
+  const fetchData = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const data = await axios.get(api).then((response) => {
+        return response.data;
+      });
+      setPokemon(data.results);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+      setError("Ocurrio un error");
+    }
+  };
   useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        const data = await axios.get(api).then((response) => {
-          return response.data;
-        });
-        setPokemon(data.results);
-        setLoading(false);
-      } catch (error) {
-        console.log(error);
-        setLoading(false);
-        setError("Ocurrio un error");
-      }
-    };
     fetchData();
   }, []);
-  // Obtener pokemon de pokedex
+
+  //Obtener pokemon de pokedex
+  const getPokedex = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const data = await axios
+        .get(pokedexApi)
+        .then((response) => response.data);
+
+      setPokedex(data);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+      setError("Ocurrio un error");
+    }
+  };
 
   useEffect(() => {
-    const getPokedex = async () => {
-      try {
-        const data = await axios
-          .get(pokedexApi)
-          .then((response) => response.data);
-
-        setPokedex(data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
     getPokedex();
   }, [cartPokemon]);
 
@@ -65,14 +72,31 @@ const Dashboard = () => {
         { ...pokemon, isInCart: true, image: image, id: id },
       ]);
     }
+    console.log("Funcion añadir pokemon", cartPokemon);
   };
+
+  // Función para eliminar el pokemon que ya estaba selccionado
   const handleDeletePokemon = (name) => {
     setCartPokemon(cartPokemon.filter((poke) => poke.name !== name));
   };
 
+  //Función para limpiar el array
+  const handleCancelCart = () => {
+    setCartPokemon([]);
+  };
+
   return (
     <>
-      <Navbar pokemon={pokemon} cartPokemon={cartPokemon} />
+      <Navbar
+        pokemon={pokemon}
+        cartPokemon={cartPokemon}
+        pokedex={pokedex}
+        handleCancelCart={handleCancelCart}
+        loading={loading}
+        error={error}
+        setCartPokemon={setCartPokemon}
+        setPokedex={setPokedex}
+      />
       {loading && <Loader />}
       {pokemon.length === 0 && !error && !loading && <h1>No hay pokemon</h1>}
       {error && (
@@ -91,6 +115,7 @@ const Dashboard = () => {
               handleAddPokemon={handleAddPokemon}
               handleDeletePokemon={handleDeletePokemon}
               pokedex={pokedex}
+              setCartPokemon={setCartPokemon}
             />
           ))}
         </div>

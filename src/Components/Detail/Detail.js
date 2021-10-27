@@ -33,10 +33,6 @@ const Detail = () => {
     fetchData();
   }, [id]);
 
-  // if (!url) {
-  //   return null;
-  // }
-
   return (
     <div className="detail-pokemon">
       {loading && <Loader />}

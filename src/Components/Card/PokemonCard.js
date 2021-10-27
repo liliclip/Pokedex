@@ -16,7 +16,11 @@ const useStyle = makeStyles({
     width: "100px",
     marginRight: "20px",
     marginTop: "20px",
+    disabled:{
+      backgroundColor:"green"
+    }
   },
+  
 
   card: {
     backgroundColor: "#DCDCDC",
@@ -32,13 +36,15 @@ const PokemonCard = ({
   cartPokemon,
   handleDeletePokemon,
   pokedex,
+  
 }) => {
+
   const [isInCart, setIsInCart] = useState(false);
   const clasStyle = useStyle();
   //cambio de ruta para ver el detalle
   let history = useHistory();
   const handlerClick = () => {
-    history.push(`/Detail/${id}`);
+    history.push(`/detail/${id}`);
   };
   // funcion para añadir el pokemon y hacer switch de botones
   const callAddButton = () => {
@@ -78,7 +84,7 @@ const PokemonCard = ({
       <img className="poke-image" src={image} alt={name} />
       <p>{`# ${id}-${name}`}</p>
 
-      {inPokedex && <h4>GUARDADO</h4>}
+      {inPokedex && <h4 className="message-save">GUARDADO</h4>}
 
       <Button className={clasStyle.detailPokemon} onClick={handlerClick}>
         Detalle

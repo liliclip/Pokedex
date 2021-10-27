@@ -9,3 +9,8 @@ p {
     max-width: 800px; 
     max-height: 800px;
 }
+.message-save{
+  font-family: "Audiowide", cursive;
+  color: #C70039;
+  font-size: 1rem;
+}

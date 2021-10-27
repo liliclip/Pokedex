@@ -10,6 +10,8 @@ const List = ({
   handleAddPokemon,
   handleDeletePokemon,
   pokedex,
+  getPokedex,
+  setCartPokemon
 }) => {
   const id = pokemon.url.replace(apiUrl, "").replace("/", "");
   const image = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
@@ -25,6 +27,8 @@ const List = ({
       handleAddPokemon={handleAddPokemon}
       handleDeletePokemon={handleDeletePokemon}
       pokedex={pokedex}
+      getPokedex={getPokedex}
+      setCartPokemon={setCartPokemon}
     />
   );
 };
