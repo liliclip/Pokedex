@@ -5,7 +5,7 @@ import "./Dashboard.css";
 import Loader from "../Loader/Loader";
 import Navbar from "../Elements/Navbar";
 
-const api = "https://pokeapi.co/api/v2/pokemon?limit=50";
+const api = "https://pokeapi.co/api/v2/pokemon?limit=900";
 const pokedexApi = "https://6169c5c109e030001712c597.mockapi.io/pokemon";
 
 const Dashboard = () => {
@@ -36,8 +36,29 @@ const Dashboard = () => {
     fetchData();
   }, []);
 
+  //Función para enviar pokemon a mockApi
+
+  const savePokemon = async (cartPokemon,setPokedex) => {
+    setLoading(true);
+    setError(null);
+    try {
+      for await (const res of cartPokemon.map((i) => i)) {
+        await axios.post(
+          "https://6169c5c109e030001712c597.mockapi.io/pokemon",
+          res
+        );
+      }
+      getPokedex(setPokedex)
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+      setError("Ocurrio un error");
+    }
+  };
+
   //Obtener pokemon de pokedex
-  const getPokedex = async () => {
+  const getPokedex = async (setPokedex) => {
     setLoading(true);
     setError(null);
     try {
@@ -55,8 +76,8 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
-    getPokedex();
-  }, [cartPokemon]);
+    getPokedex(setPokedex);
+  }, [setPokedex]);
 
   //Función para el contador
   const handleAddPokemon = (pokemon, image, id) => {
@@ -96,6 +117,7 @@ const Dashboard = () => {
         error={error}
         setCartPokemon={setCartPokemon}
         setPokedex={setPokedex}
+        savePokemon={savePokemon}
       />
       {loading && <Loader />}
       {pokemon.length === 0 && !error && !loading && <h1>No hay pokemon</h1>}
