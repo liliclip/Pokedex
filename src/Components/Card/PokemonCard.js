@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import Card from "@material-ui/core/Card/Card";
 import Button from "@material-ui/core/Button/Button";
@@ -16,11 +16,10 @@ const useStyle = makeStyles({
     width: "100px",
     marginRight: "20px",
     marginTop: "20px",
-    disabled:{
-      backgroundColor:"green"
-    }
+    disabled: {
+      backgroundColor: "green",
+    },
   },
-  
 
   card: {
     backgroundColor: "#DCDCDC",
@@ -36,9 +35,7 @@ const PokemonCard = ({
   cartPokemon,
   handleDeletePokemon,
   pokedex,
-  
 }) => {
-
   const [isInCart, setIsInCart] = useState(false);
   const clasStyle = useStyle();
   //cambio de ruta para ver el detalle
@@ -57,6 +54,20 @@ const PokemonCard = ({
   };
 
   const inPokedex = pokedex.find((item) => item.id === id);
+ 
+ 
+  useEffect(() => {
+    if(inPokedex){
+      setIsInCart(false);
+    }
+  }, [inPokedex]);
+
+  useEffect(() => {
+    if(cartPokemon.length === 0){
+      setIsInCart(false);
+    }
+  }, [cartPokemon]);
+
 
   // componente para hacer el switch de botones
   const SwitchButtom = () => {

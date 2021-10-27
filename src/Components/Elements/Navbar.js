@@ -18,7 +18,7 @@ const useStyle = makeStyles({
   },
 });
 
-function Navbar({ cartPokemon, pokedex, handleCancelCart, loading, error,savePokemon,getPokedex}) {
+function Navbar({ cartPokemon, pokedex, handleCancelCart, loading, error,savePokemon,setPokedex}) {
   
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -42,7 +42,9 @@ function Navbar({ cartPokemon, pokedex, handleCancelCart, loading, error,savePok
           loading={loading}
           error={error}
           savePokemon={savePokemon}
-          getPokedex={getPokedex}
+          setPokedex={setPokedex}
+          // getPokedex={getPokedex}
+          
         />
       </Modal>
     </div>

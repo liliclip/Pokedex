@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { useHistory } from "react-router-dom";
-import axios from "axios";
+//import axios from "axios";
 import Button from "@material-ui/core/Button/Button";
 import "./Cart.css";
 import { makeStyles } from "@material-ui/core/styles/";
-import Loader from "../Loader/Loader";
+
 
 const useStyle = makeStyles({
   cancel: {
@@ -29,35 +29,20 @@ const useStyle = makeStyles({
   },
 });
 
-function Cart({ cartPokemon, pokedex, handleCancelCart }) {
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
+function Cart({
+  cartPokemon,
+  pokedex,
+  handleCancelCart,
+  savePokemon,
+  setPokedex,
+  loading,
+  error
+}) {
+  
 
   let history = useHistory();
   const handlerClick = () => {
     history.push("/pokedex");
-  };
-
-  
-
-  //Función para enviar pokemon a mockApi
-
-  const savePokemon = async (cartPokemon) => {
-    setLoading(true);
-    setError(null);
-    try {
-      for await (const res of cartPokemon.map((i) => i)) {
-        await axios.post(
-          "https://6169c5c109e030001712c597.mockapi.io/pokemon",
-          res
-        );
-      }
-      setLoading(false);
-    } catch (error) {
-      console.log(error);
-      setLoading(false);
-      setError("Ocurrio un error");
-    }
   };
 
   const cancelArray = () => {
@@ -66,15 +51,17 @@ function Cart({ cartPokemon, pokedex, handleCancelCart }) {
   };
 
   const handleSavePokemon = () => {
-    savePokemon(cartPokemon);
+    savePokemon(cartPokemon, setPokedex);
   };
 
   const clasStyle = useStyle();
 
   return (
     <div>
-      {loading && <Loader />}
-      {pokedex.length === 0 && !error && !loading && <span>No hay pokemons en la pokedex </span>}
+     
+      {pokedex.length === 0 && !error && !loading && (
+        <span>No hay pokemons en la pokedex </span>
+      )}
       <div className="pokemon-state">
         <div>
           <h3>Pokemons Seleccionados</h3>

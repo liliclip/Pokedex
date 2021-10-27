@@ -1,6 +1,6 @@
 import React from "react";
 import PokemonCard from "../Card/PokemonCard";
-import PropTypes from "prop-types";
+//import PropTypes from "prop-types";
 
 const apiUrl = "https://pokeapi.co/api/v2/pokemon/";
 
@@ -33,8 +33,8 @@ const List = ({
   );
 };
 
-List.propTypes = {
-  pokemon: PropTypes.object.isRequired,
-};
+// List.propTypes = {
+//   pokemon: PropTypes.object.isRequired,
+// };
 
 export default List;
