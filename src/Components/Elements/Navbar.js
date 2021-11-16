@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import pokeball from "../../Assets/small-pokeball-icon-4.jpeg";
+import back from "../../Assets/back-icon.png";
+import pokeLogo from "../../Assets/pokeLogo.png";
 import Cart from "../CartPokemon/Cart";
 import "./Navbar.css";
 import { makeStyles } from "@material-ui/core/styles/";
+import { useHistory } from "react-router-dom";
 import Modal from "@material-ui/core/Modal/Modal";
-
 
 const useStyle = makeStyles({
   pokeModal: {
@@ -18,22 +20,49 @@ const useStyle = makeStyles({
   },
 });
 
-function Navbar({ cartPokemon, pokedex, handleCancelCart, loading, error,savePokemon,setPokedex}) {
-  
+function Navbar({
+  cartPokemon,
+  pokedex,
+  handleCancelCart,
+  loading,
+  error,
+  savePokemon,
+  setPokedex,
+  modeMockApi,
+}) {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const clasStyle = useStyle();
 
+  let history = useHistory();
+  const handlerClick = () => {
+    history.push("/dashboard");
+  };
+
   return (
-    <div className="pokedex">
-      <h1>Pokedex</h1>
-      <div className="counter-pokemon">
-        <button onClick={handleOpen}>
-          <img src={pokeball} alt="pokeball" />
-        </button>
-        <span>{cartPokemon.length}</span>
-      </div>
+    <div className="pokeball">
+      {modeMockApi ? (
+        <>
+          <img src={pokeLogo} alt="pokeLogo" />
+          <div className="modeMockApi-navbar">
+            <button onClick={handlerClick}>
+              <img src={back} alt="back-icon" />
+            </button>
+          </div>
+        </>
+      ) : (
+        <>
+          <img src={pokeLogo} alt="pokeLogo" />
+          <div className="counter-pokemon">
+            <button onClick={handleOpen}>
+              <img src={pokeball} alt="pokeball" />
+            </button>
+            <span>{cartPokemon.length}</span>
+          </div>
+        </>
+      )}
+
       <Modal open={open} onClose={handleClose} className={clasStyle.pokeModal}>
         <Cart
           cartPokemon={cartPokemon}
@@ -43,8 +72,6 @@ function Navbar({ cartPokemon, pokedex, handleCancelCart, loading, error,savePok
           error={error}
           savePokemon={savePokemon}
           setPokedex={setPokedex}
-          // getPokedex={getPokedex}
-          
         />
       </Modal>
     </div>

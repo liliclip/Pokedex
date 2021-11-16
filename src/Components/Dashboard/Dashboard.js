@@ -8,14 +8,14 @@ import Navbar from "../Elements/Navbar";
 const api = "https://pokeapi.co/api/v2/pokemon?limit=900";
 const pokedexApi = "https://6169c5c109e030001712c597.mockapi.io/pokemon";
 
-const Dashboard = () => {
+const Dashboard = ({ modeMockApi }) => {
   const [pokemon, setPokemon] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [cartPokemon, setCartPokemon] = useState([]);
   const [pokedex, setPokedex] = useState([]);
 
-  //Petición asíncrona 600 pokemon
+  //Petición 600 pokemon
 
   const fetchData = async () => {
     setLoading(true);
@@ -38,7 +38,7 @@ const Dashboard = () => {
 
   //Función para enviar pokemon a mockApi
 
-  const savePokemon = async (cartPokemon,setPokedex) => {
+  const savePokemon = async (cartPokemon, setPokedex) => {
     setLoading(true);
     setError(null);
     try {
@@ -48,7 +48,7 @@ const Dashboard = () => {
           res
         );
       }
-      getPokedex(setPokedex)
+      getPokedex(setPokedex);
       setLoading(false);
     } catch (error) {
       console.log(error);
@@ -79,7 +79,24 @@ const Dashboard = () => {
     getPokedex(setPokedex);
   }, [setPokedex]);
 
+  //Función para borrar pokemon de pokedex
+  const deletePokedex = async (objectId) => {
+    try {
+      await axios
+        .delete(
+          `https://6169c5c109e030001712c597.mockapi.io/pokemon/${objectId}`
+        )
+        .then((response) => {
+          
+        });
+      getPokedex(setPokedex);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   //Función para el contador
+
   const handleAddPokemon = (pokemon, image, id) => {
     const pokemonIndex = cartPokemon.findIndex(
       (item) => item.name === pokemon.name
@@ -96,7 +113,7 @@ const Dashboard = () => {
     console.log("Funcion añadir pokemon", cartPokemon);
   };
 
-  // Función para eliminar el pokemon que ya estaba selccionado
+  // Función para eliminar el pokemon que ya estaba seleccionado
   const handleDeletePokemon = (name) => {
     setCartPokemon(cartPokemon.filter((poke) => poke.name !== name));
   };
@@ -107,20 +124,28 @@ const Dashboard = () => {
   };
 
   return (
-    <>
+    <div className="dashboard">
       <Navbar
-        pokemon={pokemon}
         cartPokemon={cartPokemon}
         pokedex={pokedex}
         handleCancelCart={handleCancelCart}
         loading={loading}
         error={error}
-        setCartPokemon={setCartPokemon}
         setPokedex={setPokedex}
         savePokemon={savePokemon}
+        modeMockApi={modeMockApi}
       />
       {loading && <Loader />}
       {pokemon.length === 0 && !error && !loading && <h1>No hay pokemon</h1>}
+      {modeMockApi && pokedex.length === 0 && !error && !loading && (
+        <div>
+          <h1>Sin pokemon en la pokedex</h1>
+          <img
+            src="https://media.giphy.com/media/L95W4wv8nnb9K/giphy.gif"
+            alt="pikachu-cry"
+          ></img>
+        </div>
+      )}
       {error && (
         <div className="message-error">
           <p> Ha ocurrido un error </p>
@@ -128,21 +153,31 @@ const Dashboard = () => {
       )}
       {!error && (
         <div className="container-cards">
-          {pokemon.map((item) => (
-            <List
-              key={item.name}
-              pokemon={item}
-              data={pokemon}
-              cartPokemon={cartPokemon}
-              handleAddPokemon={handleAddPokemon}
-              handleDeletePokemon={handleDeletePokemon}
-              pokedex={pokedex}
-              setCartPokemon={setCartPokemon}
-            />
-          ))}
+          {modeMockApi
+            ? pokedex.map((item) => (
+                <List
+                  key={item.name}
+                  pokemon={item}
+                  pokedex={pokedex}
+                  modeMockApi={modeMockApi}
+                  objectId={item.objectId}
+                  deletePokedex={deletePokedex}
+                />
+              ))
+            : pokemon.map((item) => (
+                <List
+                  key={item.name}
+                  pokemon={item}
+                  cartPokemon={cartPokemon}
+                  handleAddPokemon={handleAddPokemon}
+                  handleDeletePokemon={handleDeletePokemon}
+                  pokedex={pokedex}
+                  setCartPokemon={setCartPokemon}
+                />
+              ))}
         </div>
       )}
-    </>
+    </div>
   );
 };
 export default Dashboard;

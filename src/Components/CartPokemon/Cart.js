@@ -1,6 +1,5 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-//import axios from "axios";
 import Button from "@material-ui/core/Button/Button";
 import "./Cart.css";
 import { makeStyles } from "@material-ui/core/styles/";
@@ -47,11 +46,11 @@ function Cart({
 
   const cancelArray = () => {
     handleCancelCart();
-    console.log("si estoy dando click");
   };
 
   const handleSavePokemon = () => {
     savePokemon(cartPokemon, setPokedex);
+    handleCancelCart();
   };
 
   const clasStyle = useStyle();
@@ -59,9 +58,7 @@ function Cart({
   return (
     <div>
      
-      {pokedex.length === 0 && !error && !loading && (
-        <span>No hay pokemons en la pokedex </span>
-      )}
+      {pokedex.length === 0 && !error && !loading }
       <div className="pokemon-state">
         <div>
           <h3>Pokemons Seleccionados</h3>

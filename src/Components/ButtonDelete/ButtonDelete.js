@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles/";
 import React from "react";
 
 const useStyle = makeStyles({
-    detailPokemon: {
+    deletePokemon: {
       borderRadious: 3,
       backgroundColor: "#F00448",
       color: "white",
@@ -17,11 +17,11 @@ const useStyle = makeStyles({
 function ButtonDelete({onClick}) {
     const clasStyle = useStyle();
   return (
-    <div>
-      <Button className={clasStyle.detailPokemon} onClick={onClick}>
+    <>
+      <Button className={clasStyle.deletePokemon} onClick={onClick}>
         Eliminar
       </Button>
-    </div>
+    </>
   );
 }
 

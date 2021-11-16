@@ -5,11 +5,11 @@ import Button from "@material-ui/core/Button/Button";
 import "./CardDetail.css";
 import Loader from "../Loader/Loader"
 
-const CardDetail = ({ pokemon , id }) => {
+const CardDetail = ({ pokemon , id, modeMockApi}) => {
   const useStyle = makeStyles({
     detailPokemon: {
       borderRadious: 3,
-      backgroundColor: "#35cdfc",
+      backgroundColor: "#4094F9",
       color: "white",
       marginBottom: "20px",
       marginTop: "20px",
@@ -22,10 +22,13 @@ const CardDetail = ({ pokemon , id }) => {
     },
   });
   const clasStyle = useStyle();
+
   let history = useHistory();
   const handlerClick = () => {
-    history.push("/Dashboard");
+    history.push("/dashboard")
   };
+
+  
 
   const {
     name,
@@ -79,10 +82,10 @@ const CardDetail = ({ pokemon , id }) => {
               return <h3 className="types">{name}</h3>
             })}
             </div>
-
-            <Button className={clasStyle.detailPokemon} onClick={handlerClick}>
+            
+             <Button className={clasStyle.detailPokemon} onClick={handlerClick}>
               regresar
-            </Button>
+            </Button> 
           </div>
         </div>
       )}

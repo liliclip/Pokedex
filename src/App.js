@@ -4,7 +4,7 @@ import Dashboard from "./Components/Dashboard/Dashboard";
 import Cart from "./Components/CartPokemon/Cart";
 import "./App.css";
 import Detail from "./Components/Detail/Detail";
-import Pokedex from "./Components/Pokedex/Pokedex";
+//import PokedexBoard from "./Components/Pokedex/PokedexBoard";
 
 function App() {
   return (
@@ -22,8 +22,8 @@ function App() {
           </Route>
 
           <Route path="/detail/:id">
-            <div className="Modal">
-              <Detail  />
+            <div className="detail">
+              <Detail />
             </div>
           </Route>
           <Route path="/cart">
@@ -33,7 +33,7 @@ function App() {
           </Route>
           <Route path="/pokedex">
             <div className="pokedex">
-              <Pokedex />
+              <Dashboard modeMockApi />
             </div>
           </Route>
         </Switch>

@@ -1,6 +1,6 @@
 import React from "react";
 import PokemonCard from "../Card/PokemonCard";
-//import PropTypes from "prop-types";
+import PropTypes from "prop-types";
 
 const apiUrl = "https://pokeapi.co/api/v2/pokemon/";
 
@@ -10,8 +10,10 @@ const List = ({
   handleAddPokemon,
   handleDeletePokemon,
   pokedex,
-  getPokedex,
-  setCartPokemon
+  setCartPokemon,
+  modeMockApi,
+  objectId,
+  deletePokedex
 }) => {
   const id = pokemon.url.replace(apiUrl, "").replace("/", "");
   const image = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
@@ -27,14 +29,16 @@ const List = ({
       handleAddPokemon={handleAddPokemon}
       handleDeletePokemon={handleDeletePokemon}
       pokedex={pokedex}
-      getPokedex={getPokedex}
       setCartPokemon={setCartPokemon}
+      modeMockApi={modeMockApi}
+      objectId={objectId}
+      deletePokedex={deletePokedex}
     />
   );
 };
 
-// List.propTypes = {
-//   pokemon: PropTypes.object.isRequired,
-// };
+List.propTypes = {
+  pokemon: PropTypes.object.isRequired,
+};
 
 export default List;

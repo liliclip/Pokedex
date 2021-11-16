@@ -10,20 +10,32 @@ import ButtonDelete from "../ButtonDelete/ButtonDelete";
 const useStyle = makeStyles({
   detailPokemon: {
     borderRadious: 3,
-    backgroundColor: "#35cdfc",
+    backgroundColor: "#4094F9",
     color: "white",
     marginBottom: "20px",
     width: "100px",
     marginRight: "20px",
     marginTop: "20px",
-    disabled: {
-      backgroundColor: "green",
-    },
   },
 
   card: {
     backgroundColor: "#DCDCDC",
   },
+  number: {
+    color: "#d30101",
+  },
+  save: {
+    backgroundColor: "#DFFCF2",
+  },
+  messageSave: {
+    color: "#7CD1B3",
+    fontFamily: "Audiowide",
+    fontSize: "20px",
+  },
+  blockButton: {
+    display:"flex",
+  },
+ 
 });
 
 const PokemonCard = ({
@@ -35,15 +47,45 @@ const PokemonCard = ({
   cartPokemon,
   handleDeletePokemon,
   pokedex,
+  modeMockApi,
+  objectId,
+  deletePokedex,
 }) => {
   const [isInCart, setIsInCart] = useState(false);
   const clasStyle = useStyle();
+
+  const stylesCard = () => {
+    let save;
+    inPokedex ? (save = clasStyle.save) : (save = clasStyle.card);
+    return save;
+  };
+
+  //Función para cambiar el boton
+  
+  const switchButton = (isInCart) => {
+    if (isInCart) {
+      return (
+        <ButtonDelete
+          onClick={() => callDeleteButton()}
+          disabled={!!inPokedex}
+        />
+      );
+    } else {
+      return (
+        <AddButton onClick={() => callAddButton()} disabled={!!inPokedex} />
+      );
+    }
+  };
+
   //cambio de ruta para ver el detalle
+
   let history = useHistory();
   const handlerClick = () => {
     history.push(`/detail/${id}`);
   };
+
   // funcion para añadir el pokemon y hacer switch de botones
+
   const callAddButton = () => {
     handleAddPokemon(data, image, id);
     setIsInCart(true);
@@ -53,60 +95,49 @@ const PokemonCard = ({
     setIsInCart(false);
   };
 
+  //Funcion para eliminar el pokemon de la pokedex
+  const deletePokemonPokedex = () => {
+    deletePokedex(objectId);
+  };
   const inPokedex = pokedex.find((item) => item.id === id);
- 
- 
+
   useEffect(() => {
-    if(inPokedex){
+    if (inPokedex) {
       setIsInCart(false);
     }
   }, [inPokedex]);
-
+  // Quitar el boton de eliminar siempre que cartPokemon este en cero
   useEffect(() => {
-    if(cartPokemon.length === 0){
+    if (cartPokemon?.length === 0) {
       setIsInCart(false);
     }
   }, [cartPokemon]);
 
-
-  // componente para hacer el switch de botones
-  const SwitchButtom = () => {
-    switch (isInCart) {
-      case true: {
-        return (
-          <ButtonDelete
-            onClick={() => callDeleteButton()}
-            disabled={!!inPokedex}
-          />
-        );
-      }
-      case false: {
-        return (
-          <AddButton onClick={() => callAddButton()} disabled={!!inPokedex} />
-        );
-      }
-      default:
-        return "error";
-    }
-  };
-
   return (
-    <Card className={clasStyle.card}>
+    <Card className={stylesCard()}>
+      <p className={clasStyle.number}>{`#${id}`}</p>
       <img className="poke-image" src={image} alt={name} />
-      <p>{`# ${id}-${name}`}</p>
+      <p>{`${name}`}</p>
 
-      {inPokedex && <h4 className="message-save">GUARDADO</h4>}
+      {inPokedex && !modeMockApi && (
+        <h4 className={clasStyle.messageSave}>GUARDADO</h4>
+      )}
 
-      <Button className={clasStyle.detailPokemon} onClick={handlerClick}>
-        Detalle
-      </Button>
-      <SwitchButtom
-        data={data}
-        handleAddPokemon={handleAddPokemon}
-        cartPokemon={cartPokemon}
-        handleDeletePokemon={handleDeletePokemon}
-        id={id}
-      />
+      {modeMockApi ? (
+        <div className="blockButton">
+          <Button className={clasStyle.detailPokemon} onClick={handlerClick}>
+            Detalle
+          </Button>
+          <ButtonDelete onClick={() => deletePokemonPokedex()} />
+        </div>
+      ) : (
+        <div className="blockButton">
+          <Button className={clasStyle.detailPokemon} onClick={handlerClick}>
+            Detalle
+          </Button>
+          {switchButton(isInCart)}
+        </div>
+      )}
     </Card>
   );
 };

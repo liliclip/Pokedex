@@ -2,13 +2,12 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import CardDetail from "../CardDetail/CardDetail";
-import Loader from "../Loader/Loader";
 import "./Detail.css";
 
 const apiUrl = "https://pokeapi.co/api/v2/pokemon/";
 //const apiUrl = "https://pokeapi/api/v2/pokemon/";
 
-const Detail = () => {
+const Detail = ({modeMockApi}) => {
   const [url, setUrl] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -35,12 +34,12 @@ const Detail = () => {
 
   return (
     <div className="detail-pokemon">
-      {loading && <Loader />}
+      
       {url.length === 0 && !error && !loading && (
         <div>¡Ohh no! no hay resultados</div>
       )}
       {!error ? (
-        <CardDetail key={url.name} pokemon={url} id={id}/>
+        <CardDetail key={url.name} pokemon={url} id={id} modeMockApi={modeMockApi}/>
       ) : (
         <div className="message-error">
           <p> Ha ocurrido un error </p>
