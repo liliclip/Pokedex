@@ -6,6 +6,8 @@ const apiUrl = "https://pokeapi.co/api/v2/pokemon/";
 
 const List = ({
   pokemon,
+  url,
+  name,
   cartPokemon,
   handleAddPokemon,
   handleDeletePokemon,
@@ -13,18 +15,27 @@ const List = ({
   setCartPokemon,
   modeMockApi,
   objectId,
-  deletePokedex
+  deletePokedex,
+  addPokemon,
+  pokedexKey,
+  pokedexName,
+  pokedexImage,
+  pokedexId,
+  handleIsInCart,
+  handleOutCart,
+  inCart
 }) => {
-  const id = pokemon.url.replace(apiUrl, "").replace("/", "");
+  const id = url?.replace(apiUrl, "").replace("/", "");
   const image = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
 
   return (
     <PokemonCard
       index={pokemon.name}
       image={image}
-      name={pokemon.name}
+      name={name}
       data={pokemon}
       id={id}
+      url={url}
       cartPokemon={cartPokemon}
       handleAddPokemon={handleAddPokemon}
       handleDeletePokemon={handleDeletePokemon}
@@ -33,6 +44,14 @@ const List = ({
       modeMockApi={modeMockApi}
       objectId={objectId}
       deletePokedex={deletePokedex}
+      addPokemon={addPokemon}
+      // pokedexKey={pokedexKey}
+      // pokedexName={pokedexName}
+      // pokedexImage={pokedexImage}
+      // pokedexId={pokedexId}
+      handleIsInCart={handleIsInCart}
+      handleOutCart={handleOutCart}
+      inCart={inCart}
     />
   );
 };

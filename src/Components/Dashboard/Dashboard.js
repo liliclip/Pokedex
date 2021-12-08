@@ -1,35 +1,49 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useReducer } from "react";
 import axios from "axios";
 import List from "../List/List";
 import "./Dashboard.css";
 import Loader from "../Loader/Loader";
 import Navbar from "../Elements/Navbar";
+import reducer, { INITIAL_STATE } from "../../store/dashboard/reducer";
+import {
+  setGetPokemons,
+  successGetPokemons,
+  errorGetPokemons,
+  addPokemon,
+  deletePokemon,
+  deleteAllPokemons,
+  setCloseModal,
+  setOpenModal,
+  savePokemonsInPokedex,
+  IsInCart,
+  OutCart,
+  SetSavePokemonsInPokedex,
+  errorSavePokemonsInPokedex,
+  errorGetPokedex,
+  setGetPokedex,
+} from "../../store/dashboard/actions";
 
-const api = "https://pokeapi.co/api/v2/pokemon?limit=900";
+const api = "https://pokeapi.co/api/v2/pokemon?limit=12";
 const pokedexApi = "https://6169c5c109e030001712c597.mockapi.io/pokemon";
 
 const Dashboard = ({ modeMockApi }) => {
-  const [pokemon, setPokemon] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [cartPokemon, setCartPokemon] = useState([]);
-  const [pokedex, setPokedex] = useState([]);
+  // usando useReducer
+  const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
+  const { loading, error, pokemon, cartPokemon, pokedex, open, inCart } = state;
 
   //Petición 600 pokemon
 
   const fetchData = async () => {
-    setLoading(true);
-    setError(null);
+    dispatch(setGetPokemons());
+
     try {
       const data = await axios.get(api).then((response) => {
         return response.data;
       });
-      setPokemon(data.results);
-      setLoading(false);
+
+      dispatch(successGetPokemons(data.results));
     } catch (error) {
-      console.log(error);
-      setLoading(false);
-      setError("Ocurrio un error");
+      dispatch(errorGetPokemons(error));
     }
   };
   useEffect(() => {
@@ -38,9 +52,8 @@ const Dashboard = ({ modeMockApi }) => {
 
   //Función para enviar pokemon a mockApi
 
-  const savePokemon = async (cartPokemon, setPokedex) => {
-    setLoading(true);
-    setError(null);
+  const savePokemon = async (cartPokemon) => {
+    dispatch(SetSavePokemonsInPokedex());
     try {
       for await (const res of cartPokemon.map((i) => i)) {
         await axios.post(
@@ -48,96 +61,85 @@ const Dashboard = ({ modeMockApi }) => {
           res
         );
       }
-      getPokedex(setPokedex);
-      setLoading(false);
+      getPokedex();
     } catch (error) {
-      console.log(error);
-      setLoading(false);
-      setError("Ocurrio un error");
+      dispatch(errorSavePokemonsInPokedex(error));
     }
   };
 
   //Obtener pokemon de pokedex
-  const getPokedex = async (setPokedex) => {
-    setLoading(true);
-    setError(null);
+  const getPokedex = async () => {
+    dispatch(setGetPokedex());
     try {
       const data = await axios
         .get(pokedexApi)
         .then((response) => response.data);
-
-      setPokedex(data);
-      setLoading(false);
+      dispatch(savePokemonsInPokedex(data));
     } catch (error) {
       console.log(error);
-      setLoading(false);
-      setError("Ocurrio un error");
+      dispatch(errorGetPokedex(error));
     }
   };
 
   useEffect(() => {
-    getPokedex(setPokedex);
-  }, [setPokedex]);
+    getPokedex();
+  }, []);
 
-  //Función para borrar pokemon de pokedex
+  // //Función para borrar pokemon de pokedex
   const deletePokedex = async (objectId) => {
     try {
       await axios
         .delete(
           `https://6169c5c109e030001712c597.mockapi.io/pokemon/${objectId}`
         )
-        .then((response) => {
-          
-        });
-      getPokedex(setPokedex);
+        .then((response) => {});
+      getPokedex();
     } catch (error) {
       console.log(error);
     }
   };
 
+  const handleOpen = () => dispatch(setOpenModal());
+  const handleClose = () => dispatch(setCloseModal());
+
+  //Función para cambio de botón
+  const handleIsInCart = () => dispatch(IsInCart());
+  const handleOutCart = () => dispatch(OutCart());
+
   //Función para el contador
 
-  const handleAddPokemon = (pokemon, image, id) => {
-    const pokemonIndex = cartPokemon.findIndex(
-      (item) => item.name === pokemon.name
-    );
-    if (pokemonIndex !== -1) {
-      return;
-    } else {
-      const copyCard = [...cartPokemon];
-      setCartPokemon([
-        ...copyCard,
-        { ...pokemon, isInCart: true, image: image, id: id },
-      ]);
-    }
-    console.log("Funcion añadir pokemon", cartPokemon);
+  const handleAddPokemon = (name, image, url, id) => {
+    dispatch(addPokemon({ name, image, url, id }));
   };
 
-  // Función para eliminar el pokemon que ya estaba seleccionado
+  //Función para eliminar pokemon seleccionado
   const handleDeletePokemon = (name) => {
-    setCartPokemon(cartPokemon.filter((poke) => poke.name !== name));
+    dispatch(deletePokemon({ name }));
+    console.log(name);
   };
-
-  //Función para limpiar el array
   const handleCancelCart = () => {
-    setCartPokemon([]);
+    dispatch(deleteAllPokemons());
   };
 
+  console.log(pokedex);
   return (
     <div className="dashboard">
       <Navbar
         cartPokemon={cartPokemon}
-        pokedex={pokedex}
         handleCancelCart={handleCancelCart}
         loading={loading}
         error={error}
-        setPokedex={setPokedex}
+        open={open}
+        handleClose={handleClose}
+        handleOpen={handleOpen}
+        pokedex={pokedex}
         savePokemon={savePokemon}
         modeMockApi={modeMockApi}
+        IsInCart={inCart}
       />
       {loading && <Loader />}
-      {pokemon.length === 0 && !error && !loading && <h1>No hay pokemon</h1>}
-      {modeMockApi && pokedex.length === 0 && !error && !loading && (
+      {pokemon?.length === 0 && !error && !loading && <h1>No hay pokemon</h1>}
+      {modeMockApi && pokedex?.length === 0 && !error && !loading && (
         <div>
           <h1>Sin pokemon en la pokedex</h1>
           <img
@@ -154,25 +156,33 @@ const Dashboard = ({ modeMockApi }) => {
       {!error && (
         <div className="container-cards">
           {modeMockApi
-            ? pokedex.map((item) => (
+            ? pokedex?.map((item) => (
                 <List
                   key={item.name}
+                  name={item.name}
+                  url={item.url}
+                  id={item.id}
                   pokemon={item}
-                  pokedex={pokedex}
+                  pokedex={state.pokedex}
                   modeMockApi={modeMockApi}
                   objectId={item.objectId}
                   deletePokedex={deletePokedex}
                 />
               ))
-            : pokemon.map((item) => (
+            : pokemon?.map((item) => (
                 <List
                   key={item.name}
-                  pokemon={item}
+                  url={item.url}
+                  name={item.name}
+                  pokemon={state.pokemon}
                   cartPokemon={cartPokemon}
                   handleAddPokemon={handleAddPokemon}
                   handleDeletePokemon={handleDeletePokemon}
                   pokedex={pokedex}
-                  setCartPokemon={setCartPokemon}
+                  handleIsInCart={handleIsInCart}
+                  handleOutCart={handleOutCart}
+                  addPokemon={addPokemon}
+                  inCart={inCart}
                 />
               ))}
         </div>

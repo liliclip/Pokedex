@@ -3,9 +3,10 @@ import { useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles/";
 import Button from "@material-ui/core/Button/Button";
 import "./CardDetail.css";
-import Loader from "../Loader/Loader"
+import Loader from "../Loader/Loader";
 
-const CardDetail = ({ pokemon , id, modeMockApi}) => {
+const CardDetail = ({ pokemon, id, modeMockApi }) => {
+  console.log(id,modeMockApi,pokemon)
   const useStyle = makeStyles({
     detailPokemon: {
       borderRadious: 3,
@@ -14,7 +15,7 @@ const CardDetail = ({ pokemon , id, modeMockApi}) => {
       marginBottom: "20px",
       marginTop: "20px",
       width: "120px",
-      marginLeft:"30px"
+      marginLeft: "30px",
     },
 
     card: {
@@ -25,10 +26,8 @@ const CardDetail = ({ pokemon , id, modeMockApi}) => {
 
   let history = useHistory();
   const handlerClick = () => {
-    history.push("/dashboard")
+    history.push("/dashboard");
   };
-
-  
 
   const {
     name,
@@ -44,7 +43,7 @@ const CardDetail = ({ pokemon , id, modeMockApi}) => {
   return (
     <>
       {sprites === undefined ? (
-        <Loader/>
+        <Loader />
       ) : (
         <div className="Detail-container-card">
           <div className="Detail-container-card-left">
@@ -59,7 +58,7 @@ const CardDetail = ({ pokemon , id, modeMockApi}) => {
               const {
                 ability: { name },
               } = item;
-              return <h3 className="types">{name}</h3>
+              return <h3 className="types">{name}</h3>;
             })}
           </div>
           <div className="Detail-container-card-rigth">
@@ -73,19 +72,18 @@ const CardDetail = ({ pokemon , id, modeMockApi}) => {
 
             <h2 className="titles">Especie</h2>
             <h3>{species.name}</h3>
-           <div className="types-inline">
-            <h2 className="titles">Tipo</h2>
-            {types.map((item) => {
-              const {
-                type: { name },
-              } = item;
-              return <h3 className="types">{name}</h3>
-            })}
+            <div className="types-inline">
+              <h2 className="titles">Tipo</h2>
+              {types.map((item) => {
+                const {
+                  type: { name },
+                } = item;
+                return <h3 className="types">{name}</h3>;
+              })}
             </div>
-            
-             <Button className={clasStyle.detailPokemon} onClick={handlerClick}>
+            <Button className={clasStyle.detailPokemon} onClick={handlerClick}>
               regresar
-            </Button> 
+            </Button>
           </div>
         </div>
       )}

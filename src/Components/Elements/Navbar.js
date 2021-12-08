@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import pokeball from "../../Assets/small-pokeball-icon-4.jpeg";
 import back from "../../Assets/back-icon.png";
 import pokeLogo from "../../Assets/pokeLogo.png";
@@ -29,17 +29,17 @@ function Navbar({
   savePokemon,
   setPokedex,
   modeMockApi,
+  open,
+  handleClose,
+  handleOpen,
 }) {
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
   const clasStyle = useStyle();
 
   let history = useHistory();
   const handlerClick = () => {
     history.push("/dashboard");
   };
-
+ console.log(pokedex, "====> navbar")
   return (
     <div className="pokeball">
       {modeMockApi ? (
@@ -58,7 +58,7 @@ function Navbar({
             <button onClick={handleOpen}>
               <img src={pokeball} alt="pokeball" />
             </button>
-            <span>{cartPokemon.length}</span>
+            <span>{cartPokemon?.length}</span>
           </div>
         </>
       )}

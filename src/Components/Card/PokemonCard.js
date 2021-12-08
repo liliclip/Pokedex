@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useHistory } from "react-router-dom";
 import Card from "@material-ui/core/Card/Card";
 import Button from "@material-ui/core/Button/Button";
@@ -33,16 +33,15 @@ const useStyle = makeStyles({
     fontSize: "20px",
   },
   blockButton: {
-    display:"flex",
+    display: "flex",
   },
- 
 });
 
 const PokemonCard = ({
   name,
   image,
   id,
-  data,
+  url,
   handleAddPokemon,
   cartPokemon,
   handleDeletePokemon,
@@ -50,8 +49,9 @@ const PokemonCard = ({
   modeMockApi,
   objectId,
   deletePokedex,
+  handleIsInCart,
+  handleOutCart,
 }) => {
-  const [isInCart, setIsInCart] = useState(false);
   const clasStyle = useStyle();
 
   const stylesCard = () => {
@@ -61,9 +61,11 @@ const PokemonCard = ({
   };
 
   //Función para cambiar el boton
-  
-  const switchButton = (isInCart) => {
-    if (isInCart) {
+
+  const inCart = cartPokemon?.find((item) => item.id === id);
+
+  const switchButton = (inCart) => {
+    if (inCart) {
       return (
         <ButtonDelete
           onClick={() => callDeleteButton()}
@@ -76,7 +78,7 @@ const PokemonCard = ({
       );
     }
   };
-
+  console.log(pokedex);
   //cambio de ruta para ver el detalle
 
   let history = useHistory();
@@ -87,37 +89,36 @@ const PokemonCard = ({
   // funcion para añadir el pokemon y hacer switch de botones
 
   const callAddButton = () => {
-    handleAddPokemon(data, image, id);
-    setIsInCart(true);
+    handleAddPokemon(name, image, url, id);
+    handleIsInCart();
   };
   const callDeleteButton = () => {
     handleDeletePokemon(name);
-    setIsInCart(false);
+    handleOutCart();
   };
 
   //Funcion para eliminar el pokemon de la pokedex
   const deletePokemonPokedex = () => {
     deletePokedex(objectId);
   };
-  const inPokedex = pokedex.find((item) => item.id === id);
-
-  useEffect(() => {
-    if (inPokedex) {
-      setIsInCart(false);
-    }
-  }, [inPokedex]);
-  // Quitar el boton de eliminar siempre que cartPokemon este en cero
-  useEffect(() => {
-    if (cartPokemon?.length === 0) {
-      setIsInCart(false);
-    }
-  }, [cartPokemon]);
+  console.log(pokedex, "=====> pokemonCard");
+  const inPokedex = pokedex?.find((item) => item.id === id);
 
   return (
     <Card className={stylesCard()}>
-      <p className={clasStyle.number}>{`#${id}`}</p>
-      <img className="poke-image" src={image} alt={name} />
-      <p>{`${name}`}</p>
+      {modeMockApi ? (
+        <>
+          <p className={clasStyle.number}>{`#${id}`}</p>
+          <img className="poke-image" src={image} alt={name} />
+          <p>{`${name}`}</p>{" "}
+        </>
+      ) : (
+        <>
+          <p className={clasStyle.number}>{`#${id}`}</p>
+          <img className="poke-image" src={image} alt={name} />
+          <p>{`${name}`}</p>
+        </>
+      )}
 
       {inPokedex && !modeMockApi && (
         <h4 className={clasStyle.messageSave}>GUARDADO</h4>
@@ -135,7 +136,7 @@ const PokemonCard = ({
           <Button className={clasStyle.detailPokemon} onClick={handlerClick}>
             Detalle
           </Button>
-          {switchButton(isInCart)}
+          {switchButton(inCart)}
         </div>
       )}
     </Card>

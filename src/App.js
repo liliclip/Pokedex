@@ -23,7 +23,7 @@ function App() {
 
           <Route path="/detail/:id">
             <div className="detail">
-              <Detail />
+              <Detail modeMockApi  />
             </div>
           </Route>
           <Route path="/cart">

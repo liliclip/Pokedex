@@ -58,11 +58,11 @@ function Cart({
   return (
     <div>
      
-      {pokedex.length === 0 && !error && !loading }
+      {pokedex?.length === 0 && !error && !loading }
       <div className="pokemon-state">
         <div>
           <h3>Pokemons Seleccionados</h3>
-          <p>{cartPokemon.length}</p>
+          <p>{cartPokemon?.length}</p>
           <Button className={clasStyle.cancel} onClick={cancelArray}>
             Cancelar
           </Button>
@@ -73,7 +73,7 @@ function Cart({
         <div>
           <h3>Pokemons Guardados</h3>
           {!error ? (
-            <p>{pokedex.length}</p>
+            <p>{pokedex?.length}</p>
           ) : (
             <div className="message-error">
               <p> Ha ocurrido un error </p>
