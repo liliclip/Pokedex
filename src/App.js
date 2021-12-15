@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route,Redirect } from "react-router-dom";
 import Dashboard from "./Components/Dashboard/Dashboard";
 import Cart from "./Components/CartPokemon/Cart";
 import "./App.css";
@@ -19,6 +19,10 @@ function App() {
             <div className="Dashboard">
               <Dashboard />
             </div>
+          </Route>
+
+          <Route exact path="/">
+            <Redirect to="/dashboard" />
           </Route>
 
           <Route path="/detail/:id">
