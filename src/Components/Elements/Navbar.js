@@ -8,6 +8,8 @@ import { makeStyles } from "@material-ui/core/styles/";
 import { useHistory } from "react-router-dom";
 import Modal from "@material-ui/core/Modal/Modal";
 
+import { useOwnContext } from "../../store/dashboard/storeApiPokedex";
+
 const useStyle = makeStyles({
   pokeModal: {
     width: "300px",
@@ -21,19 +23,22 @@ const useStyle = makeStyles({
 });
 
 function Navbar({
-  cartPokemon,
-  pokedex,
-  handleCancelCart,
-  loading,
-  error,
+ 
+ 
+  
+ 
   savePokemon,
   setPokedex,
   modeMockApi,
-  open,
-  handleClose,
-  handleOpen,
+  
+  
 }) {
   const clasStyle = useStyle();
+  const {cartPokemon,pokedex,open,setOpenModal,setCloseModal} = useOwnContext();
+  const handleOpen = () => setOpenModal();
+  const handleClose = () => setCloseModal();
+
+ 
 
   let history = useHistory();
   const handlerClick = () => {
@@ -65,11 +70,9 @@ function Navbar({
 
       <Modal open={open} onClose={handleClose} className={clasStyle.pokeModal}>
         <Cart
-          cartPokemon={cartPokemon}
-          pokedex={pokedex}
-          handleCancelCart={handleCancelCart}
-          loading={loading}
-          error={error}
+          
+         
+          
           savePokemon={savePokemon}
           setPokedex={setPokedex}
         />

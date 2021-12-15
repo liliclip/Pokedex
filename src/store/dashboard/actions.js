@@ -18,6 +18,7 @@ import {
   ERROR_VIEW_DETAIL_POKEMONS,
   SET_VIEW_DETAIL_POKEMONS,
 } from "./actionTypes";
+
 export const setGetPokemons = () => {
   return {
     type: SET_GET_POKEMONS,

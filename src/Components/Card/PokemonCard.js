@@ -7,6 +7,9 @@ import "./PokemonCard.css";
 import AddButton from "../AddButton/AddButton";
 import ButtonDelete from "../ButtonDelete/ButtonDelete";
 
+
+import { useOwnContext } from "../../store/dashboard/storeApiPokedex";
+
 const useStyle = makeStyles({
   detailPokemon: {
     borderRadious: 3,
@@ -19,7 +22,7 @@ const useStyle = makeStyles({
   },
 
   card: {
-    backgroundColor: "#DCDCDC",
+    backgroundColor: "#F9F7F7",
   },
   number: {
     color: "#d30101",
@@ -37,22 +40,11 @@ const useStyle = makeStyles({
   },
 });
 
-const PokemonCard = ({
-  name,
-  image,
-  id,
-  url,
-  handleAddPokemon,
-  cartPokemon,
-  handleDeletePokemon,
-  pokedex,
-  modeMockApi,
-  objectId,
-  deletePokedex,
-  handleIsInCart,
-  handleOutCart,
-}) => {
+const PokemonCard = ({ pokemon, id, image, modeMockApi,deletePokedex }) => {
+  const { pokedex, cartPokemon, addPokemon, deletePokemon, IsInCart, OutCart } =
+    useOwnContext();
   const clasStyle = useStyle();
+  
 
   const stylesCard = () => {
     let save;
@@ -60,12 +52,28 @@ const PokemonCard = ({
     return save;
   };
 
+  //Función para cambio de botón
+  const handleIsInCart = () => IsInCart();
+  const handleOutCart = () => OutCart();
+
+  //Función para el contador
+
+  const handleAddPokemon = (name, image, url, id) => {
+    addPokemon({ name, image, url, id });
+  };
+
+  //Función para eliminar pokemon seleccionado
+  const handleDeletePokemon = (name) => {
+    deletePokemon({ name });
+    console.log(name);
+  };
+ 
   //Función para cambiar el boton
 
-  const inCart = cartPokemon?.find((item) => item.id === id);
+  const isInCart = cartPokemon?.find((item) => item.id === id);
 
-  const switchButton = (inCart) => {
-    if (inCart) {
+  const switchButton = (isInCart) => {
+    if (isInCart) {
       return (
         <ButtonDelete
           onClick={() => callDeleteButton()}
@@ -78,45 +86,45 @@ const PokemonCard = ({
       );
     }
   };
-  console.log(pokedex);
+ 
+
   //cambio de ruta para ver el detalle
 
   let history = useHistory();
   const handlerClick = () => {
     history.push(`/detail/${id}`);
   };
-
+  
   // funcion para añadir el pokemon y hacer switch de botones
 
   const callAddButton = () => {
-    handleAddPokemon(name, image, url, id);
+    handleAddPokemon(pokemon.name, image, pokemon.url, id);
     handleIsInCart();
   };
   const callDeleteButton = () => {
-    handleDeletePokemon(name);
+    handleDeletePokemon(pokemon.name);
     handleOutCart();
   };
 
-  //Funcion para eliminar el pokemon de la pokedex
-  const deletePokemonPokedex = () => {
-    deletePokedex(objectId);
-  };
-  console.log(pokedex, "=====> pokemonCard");
   const inPokedex = pokedex?.find((item) => item.id === id);
-
+  const deletePokemonInPokedex = () => {
+    deletePokedex(pokemon.objectId);
+    console.log(pokemon.objectId)
+  };
+ 
   return (
     <Card className={stylesCard()}>
       {modeMockApi ? (
         <>
           <p className={clasStyle.number}>{`#${id}`}</p>
-          <img className="poke-image" src={image} alt={name} />
-          <p>{`${name}`}</p>{" "}
+          <img className="poke-image" src={image} alt={pokemon.name} />
+          <p>{`${pokemon.name}`}</p>{" "}
         </>
       ) : (
         <>
           <p className={clasStyle.number}>{`#${id}`}</p>
-          <img className="poke-image" src={image} alt={name} />
-          <p>{`${name}`}</p>
+          <img className="poke-image" src={image} alt={pokemon.name} />
+          <p>{`${pokemon.name}`}</p>
         </>
       )}
 
@@ -129,14 +137,14 @@ const PokemonCard = ({
           <Button className={clasStyle.detailPokemon} onClick={handlerClick}>
             Detalle
           </Button>
-          <ButtonDelete onClick={() => deletePokemonPokedex()} />
+          <ButtonDelete onClick={() => deletePokemonInPokedex()} />
         </div>
       ) : (
         <div className="blockButton">
           <Button className={clasStyle.detailPokemon} onClick={handlerClick}>
             Detalle
           </Button>
-          {switchButton(inCart)}
+          {switchButton(isInCart)}
         </div>
       )}
     </Card>

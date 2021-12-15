@@ -1,9 +1,4 @@
-.detail-pokemon {
-  background-image: url("../../Assets/photo-1541140134513-85a161dc4a00.jpeg");
-  height: 100%;
-  
-  padding: 120px 50px 50px 0px;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-attachment: fixed;
+body {
+  background: radial-gradient(circle, #ffffff, #8e8c8c);
+ 
 }

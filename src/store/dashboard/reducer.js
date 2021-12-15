@@ -1,3 +1,5 @@
+import { useReducer, useContext } from "react";
+import Context from "./Context";
 import {
   SET_GET_POKEMONS,
   SUCCESS_GET_POKEMONS,
@@ -16,7 +18,7 @@ import {
   IS_IN_CART,
   OUT_CART,
   SET_GET_POKEDEX,
-  ERROR_GET_POKEDEX
+  ERROR_GET_POKEDEX,
 } from "./actionTypes";
 
 export const INITIAL_STATE = {
@@ -70,7 +72,7 @@ const reducer = (state, action) => {
             id: action.payload.id,
             name: action.payload.name,
             image: action.payload.image,
-            url: action.payload.url
+            url: action.payload.url,
           },
         ],
       };
@@ -88,45 +90,43 @@ const reducer = (state, action) => {
         cartPokemon: [],
       };
 
-      case SET_SAVE_POKEMONS_IN_POKEDEX:
+    case SET_SAVE_POKEMONS_IN_POKEDEX:
       return {
         ...state,
         loading: true,
         error: null,
-        
       };
     case SAVE_POKEMONS_IN_POKEDEX:
       return {
         ...state,
-        loading:false,
+        loading: false,
         pokedex: action.payload,
       };
-      case ERROR_SAVE_POKEMONS_IN_POKEDEX:
-        return {
-          ...state,
-          loading: false,
-          error: action.payload,
-        };
-        case SET_VIEW_DETAIL_POKEMONS:
-          return {
-            ...state,
-            loading: true,
-            error: null,
-        };
+    case ERROR_SAVE_POKEMONS_IN_POKEDEX:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    case SET_VIEW_DETAIL_POKEMONS:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
     case VIEW_DETAIL_POKEMONS:
       return {
         ...state,
         loading: false,
         detail: action.payload,
       };
-      case ERROR_VIEW_DETAIL_POKEMONS:
+    case ERROR_VIEW_DETAIL_POKEMONS:
       return {
         ...state,
         loading: false,
         error: action.payload,
       };
 
-      
     case IS_IN_CART:
       return {
         ...state,
@@ -137,22 +137,30 @@ const reducer = (state, action) => {
         ...state,
         isInCart: false,
       };
-      case SET_GET_POKEDEX:
+    case SET_GET_POKEDEX:
       return {
         ...state,
         loading: true,
         error: null,
       };
-      case ERROR_GET_POKEDEX:
-        return {
-          ...state,
-          loading: false,
-          error: action.payload,
-        };
+    case ERROR_GET_POKEDEX:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
 
     default:
       return state;
   }
 };
 
-export default reducer;
+export const StoreProvider = ({ children }) => {
+  const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
+
+  return (
+    <Context.Provider value={{ state, dispatch }}>{children}</Context.Provider>
+  );
+};
+
+export const useStore = () => useContext(Context);

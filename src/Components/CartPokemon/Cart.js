@@ -4,6 +4,8 @@ import Button from "@material-ui/core/Button/Button";
 import "./Cart.css";
 import { makeStyles } from "@material-ui/core/styles/";
 
+import { useOwnContext } from "../../store/dashboard/storeApiPokedex";
+
 
 const useStyle = makeStyles({
   cancel: {
@@ -29,21 +31,24 @@ const useStyle = makeStyles({
 });
 
 function Cart({
-  cartPokemon,
-  pokedex,
-  handleCancelCart,
+  
+ 
+
   savePokemon,
   setPokedex,
-  loading,
-  error
+ 
+  
 }) {
   
-
+const {cartPokemon,pokedex,loading,error,deleteAllPokemons} = useOwnContext();
   let history = useHistory();
   const handlerClick = () => {
     history.push("/pokedex");
   };
-
+  
+  const handleCancelCart = () => {
+    deleteAllPokemons();
+  };
   const cancelArray = () => {
     handleCancelCart();
   };
