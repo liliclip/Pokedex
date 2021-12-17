@@ -22,29 +22,18 @@ const useStyle = makeStyles({
   },
 });
 
-function Navbar({
- 
- 
-  
- 
-  savePokemon,
-  setPokedex,
-  modeMockApi,
-  
-  
-}) {
+function Navbar({ savePokemon, setPokedex, modeMockApi }) {
   const clasStyle = useStyle();
-  const {cartPokemon,pokedex,open,setOpenModal,setCloseModal} = useOwnContext();
+  const { cartPokemon, pokedex, open, setOpenModal, setCloseModal } =
+    useOwnContext();
   const handleOpen = () => setOpenModal();
   const handleClose = () => setCloseModal();
-
- 
 
   let history = useHistory();
   const handlerClick = () => {
     history.push("/dashboard");
   };
- console.log(pokedex, "====> navbar")
+  console.log(pokedex, "====> navbar");
   return (
     <div className="pokeball">
       {modeMockApi ? (
@@ -69,13 +58,7 @@ function Navbar({
       )}
 
       <Modal open={open} onClose={handleClose} className={clasStyle.pokeModal}>
-        <Cart
-          
-         
-          
-          savePokemon={savePokemon}
-          setPokedex={setPokedex}
-        />
+        <Cart savePokemon={savePokemon} setPokedex={setPokedex} />
       </Modal>
     </div>
   );

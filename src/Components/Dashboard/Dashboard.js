@@ -7,7 +7,7 @@ import Navbar from "../Elements/Navbar";
 
 import { useOwnContext } from "../../store/dashboard/storeApiPokedex";
 
-const api = "https://pokeapi.co/api/v2/pokemon?limit=12";
+const api = "https://pokeapi.co/api/v2/pokemon?limit=600";
 const pokedexApi = "https://6169c5c109e030001712c597.mockapi.io/pokemon";
 
 const Dashboard = ({ modeMockApi }) => {
@@ -63,6 +63,7 @@ const Dashboard = ({ modeMockApi }) => {
   };
 
   // //Obtener pokemon de pokedex
+  
   const getPokedex = async () => {
     setGetPokedex();
     try {

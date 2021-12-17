@@ -13,19 +13,20 @@ import { useOwnContext } from "../../store/dashboard/storeApiPokedex";
 const useStyle = makeStyles({
   detailPokemon: {
     borderRadious: 3,
-    backgroundColor: "#4094F9",
+    backgroundColor: "#808283",
     color: "white",
-    marginBottom: "20px",
+    marginBottom: "35px",
     width: "100px",
     marginRight: "20px",
     marginTop: "20px",
   },
 
   card: {
-    backgroundColor: "#F9F7F7",
+    background:"linear-gradient(top,#F5F5F5,#AAAAAA)"
   },
   number: {
     color: "#d30101",
+    fontSize:"25px"
   },
   save: {
     backgroundColor: "#DFFCF2",

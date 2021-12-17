@@ -2,15 +2,10 @@
 
 p {
   font-family: "Audiowide", cursive;
-  color: #555454;
+  color: #5A5A5A;
   font-size: 1.3rem;
 }
-.poke-image{
-    height: auto; 
-    width: auto;
-    max-width: 800px; 
-    max-height: 800px;
-}
+
 .message-save{
   font-family: "Audiowide", cursive;
   color: #C70039;

@@ -48,7 +48,7 @@ const CardDetail = ({ pokemon, id, modeMockApi }) => {
         <div className="Detail-container-card">
           <div className="Detail-container-card-left">
             <h2 className="titles">Nombre</h2>
-            <h3>{`#${id}-${name}`}</h3>
+            <h3 className="name">{`#${id}-${name}`}</h3>
             <div className="background-image">
               <img src={sprites.front_default} alt={name}></img>
               <img src={sprites.back_default} alt={name}></img>

@@ -5,9 +5,9 @@ import { makeStyles } from "@material-ui/core/styles/";
 const useStyle = makeStyles({
   addPokemon: {
     borderRadious: 3,
-    backgroundColor: "#9589FE",
+    backgroundColor: "#4A98FE",
     color: "white",
-    marginBottom: "20px",
+    marginBottom: "35px",
     width: "100px",
     marginRight: "20px",
     marginTop: "20px",

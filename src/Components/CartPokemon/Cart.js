@@ -6,7 +6,6 @@ import { makeStyles } from "@material-ui/core/styles/";
 
 import { useOwnContext } from "../../store/dashboard/storeApiPokedex";
 
-
 const useStyle = makeStyles({
   cancel: {
     borderRadious: 3,
@@ -20,7 +19,17 @@ const useStyle = makeStyles({
   },
   add: {
     borderRadious: 3,
-    backgroundColor: "#9589FE",
+    backgroundColor: "#389FFF",
+    color: "white",
+    marginBottom: "20px",
+    width: "100px",
+    marginRight: "20px",
+    marginTop: "0px",
+    fontSize: "12px",
+  },
+  view_pokedex: {
+    borderRadious: 3,
+    backgroundColor: "#F7BE32",
     color: "white",
     marginBottom: "20px",
     width: "100px",
@@ -30,22 +39,14 @@ const useStyle = makeStyles({
   },
 });
 
-function Cart({
-  
- 
-
-  savePokemon,
-  setPokedex,
- 
-  
-}) {
-  
-const {cartPokemon,pokedex,loading,error,deleteAllPokemons} = useOwnContext();
+function Cart({ savePokemon, setPokedex }) {
+  const { cartPokemon, pokedex, loading, error, deleteAllPokemons } =
+    useOwnContext();
   let history = useHistory();
   const handlerClick = () => {
     history.push("/pokedex");
   };
-  
+
   const handleCancelCart = () => {
     deleteAllPokemons();
   };
@@ -62,10 +63,9 @@ const {cartPokemon,pokedex,loading,error,deleteAllPokemons} = useOwnContext();
 
   return (
     <div>
-     
-      {pokedex?.length === 0 && !error && !loading }
+      {pokedex?.length === 0 && !error && !loading}
       <div className="pokemon-state">
-        <div>
+        <div className="left-cart">
           <h3>Pokemons Seleccionados</h3>
           <p>{cartPokemon?.length}</p>
           <Button className={clasStyle.cancel} onClick={cancelArray}>
@@ -75,7 +75,7 @@ const {cartPokemon,pokedex,loading,error,deleteAllPokemons} = useOwnContext();
             Guardar
           </Button>
         </div>
-        <div>
+        <div className="right-cart">
           <h3>Pokemons Guardados</h3>
           {!error ? (
             <p>{pokedex?.length}</p>
@@ -85,7 +85,10 @@ const {cartPokemon,pokedex,loading,error,deleteAllPokemons} = useOwnContext();
             </div>
           )}
 
-          <button onClick={handlerClick}> Ir a la pokedex </button>
+          <Button onClick={handlerClick} className={clasStyle.view_pokedex}>
+            {" "}
+            ...pokedex{" "}
+          </Button>
         </div>
       </div>
     </div>

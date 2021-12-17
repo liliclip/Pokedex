@@ -7,7 +7,7 @@ const useStyle = makeStyles({
       borderRadious: 3,
       backgroundColor: "#F00448",
       color: "white",
-      marginBottom: "20px",
+      marginBottom: "30px",
       width: "100px",
       marginRight:"20px",
       marginTop:"20px"
